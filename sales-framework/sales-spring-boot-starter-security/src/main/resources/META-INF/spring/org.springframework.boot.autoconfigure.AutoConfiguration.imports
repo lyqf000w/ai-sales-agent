@@ -1,0 +1,3 @@
+cn.ai.sales.framework.security.config.SalesSecurityAutoConfiguration
+cn.ai.sales.framework.security.config.SalesWebSecurityConfigurerAdapter
+cn.ai.sales.framework.operatelog.config.SalesOperateLogConfiguration

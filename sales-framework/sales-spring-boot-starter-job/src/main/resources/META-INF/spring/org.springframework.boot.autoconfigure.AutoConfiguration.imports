@@ -1,0 +1,2 @@
+cn.ai.sales.framework.quartz.config.SalesQuartzAutoConfiguration
+cn.ai.sales.framework.quartz.config.SalesAsyncAutoConfiguration

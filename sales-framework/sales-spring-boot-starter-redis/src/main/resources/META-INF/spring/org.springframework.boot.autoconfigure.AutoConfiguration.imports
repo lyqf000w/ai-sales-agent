@@ -1,0 +1,2 @@
+cn.ai.sales.framework.redis.config.SalesRedisAutoConfiguration
+cn.ai.sales.framework.redis.config.SalesCacheAutoConfiguration

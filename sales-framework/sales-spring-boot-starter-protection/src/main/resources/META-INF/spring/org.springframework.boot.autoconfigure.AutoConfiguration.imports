@@ -1,0 +1,4 @@
+cn.ai.sales.framework.idempotent.config.SalesIdempotentConfiguration
+cn.ai.sales.framework.lock4j.config.SalesLock4jConfiguration
+cn.ai.sales.framework.ratelimiter.config.SalesRateLimiterConfiguration
+cn.ai.sales.framework.signature.config.SalesApiSignatureAutoConfiguration

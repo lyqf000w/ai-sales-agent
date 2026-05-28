@@ -1,0 +1,3 @@
+cn.ai.sales.framework.mq.redis.config.SalesRedisMQProducerAutoConfiguration
+cn.ai.sales.framework.mq.redis.config.SalesRedisMQConsumerAutoConfiguration
+cn.ai.sales.framework.mq.rabbitmq.config.SalesRabbitMQAutoConfiguration

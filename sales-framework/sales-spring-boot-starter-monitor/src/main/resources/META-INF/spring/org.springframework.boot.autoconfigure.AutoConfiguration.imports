@@ -1,0 +1,2 @@
+cn.ai.sales.framework.tracer.config.SalesTracerAutoConfiguration
+cn.ai.sales.framework.tracer.config.SalesMetricsAutoConfiguration

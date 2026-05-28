@@ -1,0 +1,44 @@
+name: ai-sales-local
+
+services:
+  postgres:
+    container_name: ai-sales-postgres
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    ports:
+      - "15432:5432"
+    environment:
+      POSTGRES_DB: ai_sales
+      POSTGRES_USER: ai_sales
+      POSTGRES_PASSWORD: ai_sales123
+      TZ: Asia/Shanghai
+    volumes:
+      - ai_sales_postgres:/var/lib/postgresql/data
+      - ../../sql/postgresql/ruoyi-vue-pro.sql:/docker-entrypoint-initdb.d/01-ruoyi-vue-pro.sql:ro
+      - ../../sql/postgresql/quartz.sql:/docker-entrypoint-initdb.d/02-quartz.sql:ro
+      - ../../sql/postgresql/agent.sql:/docker-entrypoint-initdb.d/03-agent.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ai_sales -d ai_sales"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    container_name: ai-sales-redis
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "16379:6379"
+    volumes:
+      - ai_sales_redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  ai_sales_postgres:
+    driver: local
+  ai_sales_redis:
+    driver: local

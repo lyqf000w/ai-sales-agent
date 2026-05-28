@@ -1,0 +1,7 @@
+cn.ai.sales.framework.apilog.config.SalesApiLogAutoConfiguration
+cn.ai.sales.framework.jackson.config.SalesJacksonAutoConfiguration
+cn.ai.sales.framework.swagger.config.SalesSwaggerAutoConfiguration
+cn.ai.sales.framework.web.config.SalesWebAutoConfiguration
+cn.ai.sales.framework.xss.config.SalesXssAutoConfiguration
+cn.ai.sales.framework.banner.config.SalesBannerAutoConfiguration
+cn.ai.sales.framework.encrypt.config.SalesApiEncryptAutoConfiguration

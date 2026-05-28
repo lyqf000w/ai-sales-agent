@@ -1,0 +1,3 @@
+cn.ai.sales.framework.datasource.config.SalesDataSourceAutoConfiguration
+cn.ai.sales.framework.mybatis.config.SalesMybatisAutoConfiguration
+cn.ai.sales.framework.translate.config.SalesTranslateAutoConfiguration
