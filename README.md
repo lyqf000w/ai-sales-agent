@@ -1,77 +1,111 @@
-# AI Sales Agent
+# AI 销冠 - 私域销售智能客服系统
 
-AI Sales Agent is a private-domain sales assistant system for WeChat-based customer operations. It combines CRM-style customer management, AI-assisted replies, human takeover workflows, and GeWe-based WeChat message integration into one console for sales and customer service teams.
+AI 销冠是一套面向微信私域销售场景的智能客服与销售协同系统。项目围绕“客户消息接入、AI 自动回复、人工接管、客户画像沉淀、销售过程跟进”构建完整业务闭环，帮助销售团队在微信私聊、群聊等高频沟通场景中提升响应效率和客户管理质量。
 
-This repository is a portfolio-friendly snapshot of the project. Deployment packages, logs, local environment files, and private credentials are intentionally excluded.
+本仓库为项目展示版本，已排除部署包、运行日志、本地环境配置、真实密钥和生产凭证等敏感内容。
 
-## Features
+## 项目定位
 
-- WeChat private chat and group chat conversation workbench
-- Customer profile, tags, sales stage, purchase intention, sentiment, and follow-up priority management
-- AI auto-reply workflow with manual confirmation and human takeover queues
-- Configurable human escalation rules for high-risk or sensitive conversations
-- Built-in fallback for non-text messages such as images, emoji, voice, files, and videos
-- GeWe callback parsing for inbound WeChat messages
-- Media download and display support for images, emoji, voice, files, and videos
-- WeChat CDN media proxy with HTTPS compatibility and encrypted media handling
-- Multi-tenant and multi-WeChat-account data isolation
-- Operational console for account binding, conversation handling, tags, rules, knowledge base, and statistics
+传统客服系统通常只解决“消息收发”，而 AI 销冠更关注销售业务中的连续跟进：
 
-## Tech Stack
+- 客户是谁、来自哪个微信账号
+- 当前客户处于什么销售阶段
+- 客户是否有购买意向或负面情绪
+- 哪些消息可以由 AI 自动回复
+- 哪些消息必须升级给人工处理
+- 多个微信账号同时接入时数据如何隔离
 
-- Backend: Java 17, Spring Boot 3, MyBatis Plus
-- Frontend: Vue 3, TypeScript, Element Plus, Vite
-- Database: PostgreSQL
-- Cache and infrastructure: Redis, Nginx
-- AI and messaging: DeepSeek-compatible LLM integration, GeWe API
-- Build tools: Maven, pnpm
+系统将微信私域消息、CRM 客户信息、AI 回复策略和人工工作台整合在一起，形成一套可落地的 AI 销售运营控制台。
 
-## Project Structure
+## 核心能力
+
+- 微信私聊与群聊会话工作台
+- 客户画像、客户标签、销售阶段、购买意向、客户情绪、跟进优先级管理
+- AI 自动回复、人工确认、人工接管、待处理队列等协同流程
+- 可配置人工升级规则，支持高风险意图兜底
+- 图片、表情包、语音、文件、视频等非文本消息识别与展示
+- 非文本消息自动触发人工介入，避免 AI 误判或幻觉回复
+- GeWe 微信协议服务接入，支持回调解析、消息入库、媒体下载
+- 微信 CDN 媒体代理，处理 HTTPS 混合内容、证书异常、加密资源等问题
+- 租户、微信账号、联系人、会话、消息多维度数据隔离
+- 支持客户工作台、微信账号、人工升级规则、知识库、客户标签、运营统计等后台模块
+
+## 技术栈
+
+| 方向 | 技术 |
+| --- | --- |
+| 后端 | Java 17, Spring Boot 3, MyBatis Plus |
+| 前端 | Vue 3, TypeScript, Element Plus, Vite |
+| 数据库 | PostgreSQL |
+| 缓存与基础设施 | Redis, Nginx |
+| AI 能力 | DeepSeek 兼容大模型接口 |
+| 微信能力 | GeWe API, 微信消息回调, 微信媒体下载 |
+| 工程化 | Maven, pnpm, 多模块工程 |
+
+## 系统架构
+
+```text
+微信客户
+  |
+  | 私聊 / 群聊 / 图片 / 语音 / 表情 / 文件
+  v
+GeWe 微信协议服务
+  |
+  | 消息回调 / 媒体下载
+  v
+AI 销冠后端服务
+  |
+  | 消息解析、数据隔离、AI 回复、人工升级、客户画像
+  v
+客服工作台 / 销售运营控制台
+```
+
+## 项目结构
 
 ```text
 .
-+-- sales-server                  # Spring Boot application entry
-+-- sales-module-agent            # AI sales agent domain module
-+-- sales-module-system           # system, auth, tenant, and user modules
-+-- sales-module-infra            # infrastructure modules
-+-- sales-framework               # shared framework starters and utilities
-+-- sales-ui/sales-ui-admin       # Vue 3 admin console
-+-- sql/postgresql                # PostgreSQL migration scripts
-+-- docs                          # design notes and deployment notes
-`-- script                        # helper scripts and docker examples
++-- sales-server                  # Spring Boot 应用入口
++-- sales-module-agent            # AI 销冠核心业务模块
++-- sales-module-system           # 用户、权限、租户等系统模块
++-- sales-module-infra            # 基础设施模块
++-- sales-framework               # 公共框架与 Starter
++-- sales-ui/sales-ui-admin       # Vue 3 管理后台
++-- sql/postgresql                # PostgreSQL 数据库脚本
++-- docs                          # 设计文档与部署说明
+`-- script                        # 辅助脚本与 Docker 示例
 ```
 
-## Core Module Highlights
+## 业务亮点
 
-### Conversation Workbench
+### 1. AI 与人工协同，而不是简单自动回复
 
-The console separates private chats and group chats, keeps message lists scoped by tenant and WeChat account, and provides a focused customer service workflow for sales teams.
+系统不是简单地把客户消息丢给大模型，而是结合回复策略、人工升级规则、消息类型、客户状态进行判断。普通问题可以自动处理，高风险问题和非文本消息会进入人工确认或人工接管流程。
 
-### AI and Human Collaboration
+### 2. 面向真实微信私域场景
 
-The reply pipeline supports automatic replies, manual confirmation, human takeover, and escalation alerts. Media messages and high-risk intents can be routed to human handling to avoid inappropriate AI responses.
+微信消息类型复杂，图片、表情包、语音、文件、群聊消息都需要额外处理。项目接入 GeWe API，对不同消息类型做了解析、下载、展示和人工介入策略，控制台可以直接看到客户发来的多媒体内容。
 
-### GeWe Integration
+### 3. 多微信账号数据隔离
 
-The backend integrates with GeWe callbacks and media download APIs. It handles text, image, emoji, voice, video, and file messages, then normalizes them for display in the console.
+同一个租户下可能接入多个微信账号。系统在联系人、会话、消息、回调事件等核心数据上按 `tenant_id + wechat_account_id` 维度隔离，避免多个微信账号之间的数据串线。
 
-### Media Compatibility
+### 4. 媒体资源兼容处理
 
-The project includes a WeChat media proxy for resources that cannot be loaded directly by browsers because of mixed content, certificate problems, or encrypted CDN payloads. Browser-incompatible voice formats such as Silk are handled with clear fallback behavior.
+微信 CDN 媒体资源在浏览器中经常遇到混合内容、证书、加密、跨域、格式不兼容等问题。项目实现了媒体代理与加密资源处理逻辑，并对浏览器无法直接播放的语音格式提供清晰的降级方案。
 
-### Data Isolation
+### 5. 可运营的销售工作台
 
-Conversation, contact, and message records are isolated by tenant and WeChat account. This avoids data mixing when one tenant connects multiple WeChat accounts.
+控制台不仅展示消息，还提供客户信息、回复策略、销售洞察、跟进优先级、标签、人工接管提醒等能力，让客服和销售人员能围绕客户持续跟进。
 
-## Local Development
+## 本地开发
 
-Backend:
+后端启动：
 
 ```bash
 mvn -pl sales-server -am spring-boot:run
 ```
 
-Frontend console:
+前端启动：
 
 ```bash
 cd sales-ui/sales-ui-admin
@@ -79,44 +113,49 @@ pnpm install
 pnpm dev
 ```
 
-Build frontend console:
+前端控制台构建：
 
 ```bash
 cd sales-ui/sales-ui-admin
 pnpm build:console
 ```
 
-Run backend tests for the agent module:
+Agent 模块测试：
 
 ```bash
 mvn -pl sales-module-agent -am test
 ```
 
-## Configuration
+## 配置说明
 
-Real environment files and credentials are not included in this repository. Configure these values in local or server-side environment files:
+真实环境配置未提交到仓库。部署时需要在服务器或本地配置以下信息：
 
-- PostgreSQL connection
-- Redis connection
-- GeWe API base URL and token
-- GeWe callback URL
-- LLM API base URL and API key
-- public domain and Nginx proxy settings
+- PostgreSQL 数据库连接
+- Redis 连接
+- GeWe API 地址与 Token
+- GeWe 回调地址
+- 大模型 API 地址与 API Key
+- 业务域名与 Nginx 反向代理
 
-Do not commit production tokens, passwords, callback tokens, or deployment packages.
+请勿将生产密码、Token、API Key、回调密钥、部署包、日志文件提交到代码仓库。
 
-## Portfolio Notes
+## 简历项目价值
 
-This project demonstrates:
+该项目可体现以下工程能力：
 
-- SaaS-style multi-tenant backend design
-- WeChat private-domain sales automation
-- AI reply orchestration with human-in-the-loop safety
-- Real-world media message handling across browser and third-party API limits
-- Vue 3 operational console development
-- Spring Boot modular backend development
-- Deployment and production issue troubleshooting
+- Spring Boot 多模块后端开发
+- Vue 3 企业级控制台开发
+- SaaS 多租户与多账号数据隔离设计
+- 第三方微信协议服务集成
+- AI 自动回复与人工审核流程设计
+- 客户画像与销售过程管理建模
+- 复杂媒体消息处理与浏览器兼容问题排查
+- 测试环境部署、日志排查与线上问题修复
+
+## 项目状态
+
+项目仍在持续迭代中，当前重点围绕微信消息链路、客户工作台、AI 回复策略、人工接管、媒体消息展示和多账号隔离进行完善。
 
 ## License
 
-This project is published as a personal portfolio snapshot. Check the repository license before reuse.
+本仓库用于个人项目展示与学习交流。实际复用前请确认相关依赖、框架和第三方服务的授权协议。
